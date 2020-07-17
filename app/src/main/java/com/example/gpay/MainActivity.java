@@ -2,8 +2,11 @@ package com.example.gpay;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
     Button send;
     String TAG ="main";
     final int UPI_PAYMENT = 0;
+    Dialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
+        // below 2 lines for pop up on alert
+dialog = new Dialog(this);
+ShowPopup(this);
         send = (Button) findViewById(R.id.send);
         amount = (EditText)findViewById(R.id.amount_et);
         note = (EditText)findViewById(R.id.note);
@@ -76,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 .appendQueryParameter("cu", "INR")
                 //.appendQueryParameter("refUrl", "blueapp")
                 .build();
-// this ode is only for google play
+// this code is only for google play
         String GOOGLE_PAY_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
         int GOOGLE_PAY_REQUEST_CODE = 123;
 
@@ -195,6 +201,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return false;
+    }
+    public void ShowPopup(MainActivity v) {
+        TextView txtclose;
+
+        dialog.setContentView(R.layout.custom);
+        txtclose =(TextView) dialog.findViewById(R.id.txtclose);
+
+
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
 }

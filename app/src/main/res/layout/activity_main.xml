@@ -57,6 +57,10 @@
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:text="Pay Now"/>
-
+<Button
+    android:id="@+id/text2"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:text="textpopup"/>
 
 </LinearLayout>
