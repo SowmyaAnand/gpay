@@ -1,8 +1,13 @@
 package com.example.gpay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,18 +34,31 @@ public class MainActivity extends AppCompatActivity {
     String TAG ="main";
     final int UPI_PAYMENT = 0;
     Dialog dialog;
+    Button otp1;
+    public static int NOTIFICATION_ID = 154;
+    private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // notifications(MainActivity.this);
         // below 2 lines for pop up on alert
 dialog = new Dialog(this);
 ShowPopup(this);
+
         send = (Button) findViewById(R.id.send);
         amount = (EditText)findViewById(R.id.amount_et);
         note = (EditText)findViewById(R.id.note);
         name = (EditText) findViewById(R.id.name);
         upivirtualid =(EditText) findViewById(R.id.upi_id);
+otp1 = (Button) findViewById(R.id.otp);
+otp1.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        // notifications added
+        notifications(MainActivity.this);
+    }
+});
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,5 +237,31 @@ ShowPopup(this);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
+public void notifications(Context context)
+{ int no=2343;
+    Intent notificationIntent = new Intent(context, MainActivity.class);
+    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+    Notification.Builder builder = new Notification.Builder(context).
+            setSmallIcon(R.drawable.ic_textsms_black_24dp).
+            setContentTitle("Atlas").
+            setAutoCancel(false).setOngoing(true)
+            .setContentText("otp for login"+no).setContentIntent(pendingIntent);
+    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        int importance = NotificationManager.IMPORTANCE_HIGH;
+        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "ATLAS", importance);
+        notificationChannel.enableLights(true);
+        notificationChannel.setLightColor(Color.GREEN);
+        notificationChannel.enableVibration(false);
+        notificationChannel.setSound(null, null);
+        notificationChannel.canShowBadge();
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        notificationManager.createNotificationChannel(notificationChannel);
+    }
+
+    notificationManager.notify(NOTIFICATION_ID, builder.build());
+
+}
 
 }

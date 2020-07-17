@@ -58,5 +58,10 @@
         android:layout_centerHorizontal="true"
         android:text="Pay Now"/>
 
-
+<Button
+    android:id="@+id/otp"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:text="OTP"
+    />
 </LinearLayout>
