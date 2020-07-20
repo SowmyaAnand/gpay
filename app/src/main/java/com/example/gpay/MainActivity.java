@@ -41,7 +41,8 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
-
+//Google integration
+//https://developers.google.com/identity/sign-in/android/start-integrating
 public class MainActivity extends AppCompatActivity {
     EditText amount, note, name, upivirtualid;
     Button send;
