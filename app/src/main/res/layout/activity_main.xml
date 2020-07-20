@@ -50,7 +50,7 @@
         android:text="Test UPI Payment"/>
 
     <Button
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:id="@+id/send"
@@ -67,12 +67,16 @@
     <Button
         android:id="@+id/whatsapp"
         android:text="Whatsapp"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/pager"
         android:text="pager"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"/>
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

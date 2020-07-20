@@ -31,6 +31,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,18 +47,35 @@ public class MainActivity extends AppCompatActivity {
     Button send;
     String TAG = "main";
     final int UPI_PAYMENT = 0;
+    final int GOOGLE_PAY_REQUEST_CODE = 123;
     Dialog dialog;
     Button otp1;
     Button wht,pager1;
     public static int NOTIFICATION_ID = 154;
     private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
     private static final int PERMISSION_REQUEST_CODE = 1;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static final int RC_SIGN_IN = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // notifications(MainActivity.this);
         // below 2 lines for pop up on alert
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+      //  GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
+        signInButton.setSize(SignInButton.SIZE_STANDARD);
+signInButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+});
         dialog = new Dialog(this);
         ShowPopup(this);
         wht = (Button) findViewById(R.id.whatsapp);
@@ -156,7 +182,7 @@ else
                 .build();
 // this code is only for google play
         String GOOGLE_PAY_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
-        int GOOGLE_PAY_REQUEST_CODE = 123;
+      //  int GOOGLE_PAY_REQUEST_CODE = 123;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(uri);
@@ -183,7 +209,16 @@ else
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("main ", "response "+resultCode );
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
+        }
+
+
+        Log.e("main ", "response in activity "+requestCode );
         /*
        E/main: response -1
        E/UPI: onActivityResult: txnId=AXI4a3428ee58654a938811812c72c0df45&responseCode=00&Status=SUCCESS&txnRef=922118921612
@@ -191,7 +226,7 @@ else
        E/UPI: payment successfull: 922118921612
          */
         switch (requestCode) {
-            case UPI_PAYMENT:
+            case GOOGLE_PAY_REQUEST_CODE:
                 if ((RESULT_OK == resultCode) || (resultCode == 11)) {
                     if (data != null) {
                         String trxt = data.getStringExtra("response");
@@ -216,6 +251,25 @@ else
         }
     }
 
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            // Signed in successfully, show authenticated UI.
+           Log.e("google account","google account"+account.getFamilyName());
+            gotoProfile();
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(getApplicationContext(),"Sign in cancel",Toast.LENGTH_LONG).show();
+
+        }
+    }
+    private void gotoProfile(){
+        Intent intent=new Intent(MainActivity.this,SecondActivity.class);
+        startActivity(intent);
+    }
     private void upiPaymentDataOperation(ArrayList<String> data) {
         if (isConnectionAvailable(MainActivity.this)) {
             String str = data.get(0);
