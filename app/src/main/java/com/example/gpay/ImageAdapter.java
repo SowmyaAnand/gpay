@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.github.siyamed.shapeimageview.RoundedImageView;
 
 public class ImageAdapter extends PagerAdapter {
     Context mcontext;
@@ -26,7 +29,7 @@ public class ImageAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == ((ImageView)object);
+        return view == ((RoundedImageView)object);
     }
 
     private int[] slideImageId = new int[]{
@@ -36,8 +39,11 @@ public class ImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container , int position)
     {
-        ImageView imageview = new ImageView(mcontext);
-        imageview.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        RoundedImageView imageview = new RoundedImageView(mcontext);
+       // ImageView imageview = new ImageView(mcontext);
+        imageview.setRadius(30);
+        imageview.setScaleType(RoundedImageView.ScaleType.CENTER_INSIDE);
+
         imageview.setImageResource(slideImageId[position]);
         ((ViewPager) container).addView(imageview,0);
         return imageview;
@@ -45,7 +51,7 @@ public class ImageAdapter extends PagerAdapter {
 @Override
     public void destroyItem(ViewGroup container,int position,Object object)
 {
-    ((ViewPager)container).removeView((ImageView)object);
+    ((ViewPager)container).removeView((RoundedImageView)object);
 }
 
 

@@ -8,9 +8,11 @@
     tools:context=".SecondActivity">
 <androidx.viewpager.widget.ViewPager
     android:id="@+id/viewpager"
+    android:layout_centerHorizontal="true"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:padding="20dp"
+    android:layout_height="300dp"
+    android:padding="10dp"
+
     />
 
 </RelativeLayout>
