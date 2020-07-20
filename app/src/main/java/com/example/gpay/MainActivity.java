@@ -1,8 +1,11 @@
 package com.example.gpay;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -17,6 +21,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -31,33 +36,81 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     EditText amount, note, name, upivirtualid;
     Button send;
-    String TAG ="main";
+    String TAG = "main";
     final int UPI_PAYMENT = 0;
     Dialog dialog;
     Button otp1;
+    Button wht,pager1;
     public static int NOTIFICATION_ID = 154;
     private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
+    private static final int PERMISSION_REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // notifications(MainActivity.this);
+        // notifications(MainActivity.this);
         // below 2 lines for pop up on alert
-dialog = new Dialog(this);
-ShowPopup(this);
-
+        dialog = new Dialog(this);
+        ShowPopup(this);
+        wht = (Button) findViewById(R.id.whatsapp);
         send = (Button) findViewById(R.id.send);
-        amount = (EditText)findViewById(R.id.amount_et);
-        note = (EditText)findViewById(R.id.note);
+        amount = (EditText) findViewById(R.id.amount_et);
+        note = (EditText) findViewById(R.id.note);
         name = (EditText) findViewById(R.id.name);
-        upivirtualid =(EditText) findViewById(R.id.upi_id);
-otp1 = (Button) findViewById(R.id.otp);
-otp1.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        // notifications added
-        notifications(MainActivity.this);
-    }
+        upivirtualid = (EditText) findViewById(R.id.upi_id);
+        otp1 = (Button) findViewById(R.id.otp);
+        pager1=(Button)findViewById(R.id.pager);
+        pager1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,SecondActivity.class);
+                startActivity(i);
+            }
+        });
+        otp1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // notifications added
+                notifications(MainActivity.this);
+            }
+        });
+        // call functionality
+        wht.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // call functionality
+               // try {
+                 //   String ph = "+917025864742";
+                   // Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + ph));
+                   // startActivity(intent);
+              //  } catch (Exception e) {
+                    //TODO smth
+              //  }
+
+checkpermission();
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    String no = "+919745399320";
+                    String msg="Success";
+                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+                    PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
+
+                    //Get the SmsManager instance and call the sendTextMessage method to send message
+                    SmsManager sms=SmsManager.getDefault();
+                    sms.sendTextMessage(no, null, msg, pi,null);
+
+                    Toast.makeText(getApplicationContext(), "Message Sent successfully!",
+                            Toast.LENGTH_LONG).show();
+                }
+else
+                {
+                    Toast.makeText(getApplicationContext(), "Please enable permission",
+                            Toast.LENGTH_LONG).show();
+                }
+
+            }
 });
 
         send.setOnClickListener(new View.OnClickListener() {
@@ -263,5 +316,18 @@ public void notifications(Context context)
     notificationManager.notify(NOTIFICATION_ID, builder.build());
 
 }
+public void checkpermission()
+{
+    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+            != PackageManager.PERMISSION_GRANTED) {
+        // Permission is not granted
+        // Ask for permision
+        ActivityCompat.requestPermissions(MainActivity.this,new String[] { Manifest.permission.SEND_SMS}, 1);
+    }
+    else {
+// Permission has already been granted
+    }
+}
+
 
 }
