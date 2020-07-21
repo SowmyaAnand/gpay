@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "527621676319",
+    "firebase_url": "https://gpay-590c2.firebaseio.com",
+    "project_id": "gpay-590c2",
+    "storage_bucket": "gpay-590c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527621676319:android:9c7c178c360ea8e17ee42a",
+        "android_client_info": {
+          "package_name": "com.example.gpay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527621676319-tsua63tncu8rqcp9a2lo0jbbibb9n472.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqOvYAbqarJY8Y_ay_N-EKvsQKesrMP5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527621676319-tsua63tncu8rqcp9a2lo0jbbibb9n472.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
