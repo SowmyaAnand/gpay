@@ -39,7 +39,8 @@ Uri mimage;
             @Override
             public void onClick(View v) {
                 CropImage.activity()
-                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .setMinCropResultSize(300,300)
+                        .setMaxCropResultSize(300,300)
                         .start(CropActivity.this);
 
             }
