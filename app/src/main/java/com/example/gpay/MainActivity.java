@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -21,6 +22,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     final int GOOGLE_PAY_REQUEST_CODE = 123;
     Dialog dialog;
     Button otp1;
-    Button wht,pager1;
+    Button wht,pager1,crop;
     public static int NOTIFICATION_ID = 154;
     private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -82,6 +84,7 @@ signInButton.setOnClickListener(new View.OnClickListener() {
         dialog = new Dialog(this);
         ShowPopup(this);
         wht = (Button) findViewById(R.id.whatsapp);
+        crop =(Button)findViewById(R.id.cr_cropper);
         send = (Button) findViewById(R.id.send);
         amount = (EditText) findViewById(R.id.amount_et);
         note = (EditText) findViewById(R.id.note);
@@ -89,6 +92,13 @@ signInButton.setOnClickListener(new View.OnClickListener() {
         upivirtualid = (EditText) findViewById(R.id.upi_id);
         otp1 = (Button) findViewById(R.id.otp);
         pager1=(Button)findViewById(R.id.pager);
+        crop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,CropActivity.class);
+                startActivity(i);
+            }
+        });
         pager1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -75,6 +75,11 @@
         android:text="pager"
         android:layout_width="wrap_content"
         android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/cr_cropper"
+        android:text="crop"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"
