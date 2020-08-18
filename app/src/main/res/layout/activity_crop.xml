@@ -14,6 +14,14 @@
         android:layout_margin="12dp"
         android:onClick="onSelectImageClick"
         android:text="Start Activity"/>
+    <Button
+        android:id="@+id/upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="12dp"
+        android:onClick="onSelectImageClick"
+        android:text="up"/>
 
     <ImageView
         android:id="@+id/img"

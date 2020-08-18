@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     final int GOOGLE_PAY_REQUEST_CODE = 123;
     Dialog dialog;
     Button otp1;
-    Button wht,pager1,crop;
+    Button wht,pager1,crop,sms,test;
     public static int NOTIFICATION_ID = 154;
     private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -86,12 +86,28 @@ signInButton.setOnClickListener(new View.OnClickListener() {
         wht = (Button) findViewById(R.id.whatsapp);
         crop =(Button)findViewById(R.id.cr_cropper);
         send = (Button) findViewById(R.id.send);
+        test = (Button) findViewById(R.id.url_test);
         amount = (EditText) findViewById(R.id.amount_et);
         note = (EditText) findViewById(R.id.note);
         name = (EditText) findViewById(R.id.name);
         upivirtualid = (EditText) findViewById(R.id.upi_id);
         otp1 = (Button) findViewById(R.id.otp);
+        sms = (Button) findViewById(R.id.send_sms);
         pager1=(Button)findViewById(R.id.pager);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,newimagepost.class);
+                startActivity(i);
+            }
+        });
+        sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,MessageActvity.class);
+                startActivity(i);
+            }
+        });
         crop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

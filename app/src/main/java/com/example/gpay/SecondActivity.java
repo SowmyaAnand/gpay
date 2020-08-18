@@ -24,6 +24,7 @@ import java.util.TimerTask;
 
 public class SecondActivity extends AppCompatActivity {
     ViewPager mviewpager;
+    String selectedPath="";
     //Customize image
    // https://github.com/siyamed/android-shape-imageview#:~:text=Shape%20Image%20View,bitmap%20mask%20based%20image%20views.
     @Override
@@ -35,11 +36,8 @@ public class SecondActivity extends AppCompatActivity {
         mviewpager.setAdapter(adapterview);
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new Mytimertask(),800,1600);
-        String url = "http://dailyestoreapp.com/dailyestore/api/viewUser";
+        String url = "http://dailyestoreapp.com/dailyestore/api/listCategory";
         JSONObject obj = new JSONObject();
-
-
-
         RequestQueue queue = Volley.newRequestQueue(SecondActivity.this);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET,url,null,
@@ -49,19 +47,19 @@ public class SecondActivity extends AppCompatActivity {
                         System.out.println(response);
 
                         Log.e("RESPONSE",""+response.toString());
-                        try {
-                            JSONObject jsonArray = response.getJSONObject("responsedata");
-                            Log.e("RESPONSE",""+jsonArray);
-                            JSONArray jarray = jsonArray.getJSONArray("data");
-                            Log.e("RESPONSE",""+jarray);
-                            JSONObject ja= jarray.getJSONObject(0);
-                            String userid = ja.getString("firstName");
-                            Log.e("RESPONSE",""+userid);
-                            Log.e("RESPONSE",""+ja);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e("RESPONSE error",""+e);
-                        }
+//                        try {
+//                            JSONObject jsonArray = response.getJSONObject("responsedata");
+//                            Log.e("RESPONSE",""+jsonArray);
+//                            JSONArray jarray = jsonArray.getJSONArray("data");
+//                            Log.e("RESPONSE",""+jarray);
+//                            JSONObject ja= jarray.getJSONObject(0);
+//                            String userid = ja.getString("firstName");
+//                            Log.e("RESPONSE",""+userid);
+//                            Log.e("RESPONSE",""+ja);
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            Log.e("RESPONSE error",""+e);
+//                        }
 
                     }
                 },
