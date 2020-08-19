@@ -59,91 +59,93 @@ ImageView img;
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "http://dailyestoreapp.com/dailyestore/api/listAllCategoryItem";
-                JSONObject obj = new JSONObject();
-//                try {
-//                    obj.put("typeId", 1);
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-                RequestQueue queue = Volley.newRequestQueue(newimagepost.this);
-                String URL ="http://dailyestoreapp.com/dailyestore/api/listAllCategoryItem";
-                JSONObject jsonBody = new JSONObject();
+                final String url = "http://dailyestoreapp.com/dailyestore/api/userDetails";
+                final JSONObject obj = new JSONObject();
                 try {
-                    jsonBody.put("typeId", 1);
-                    final String requestBody = jsonBody.toString();
+                    obj.put("userId", 1);
 
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.e("VOLLEY", response);
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("VOLLEY", error.toString());
-                        }
-                    }) {
-                        @Override
-                        public String getBodyContentType() {
-                            return "application/json; charset=utf-8";
-                        }
-
-                        @Override
-                        public byte[] getBody() throws AuthFailureError {
-                            try {
-                                return requestBody == null ? null : requestBody.getBytes("utf-8");
-                            } catch (UnsupportedEncodingException uee) {
-                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                                return null;
-                            }
-                        }
-
-                        @Override
-                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                            String responseString = "";
-                            if (response != null) {
-                                responseString = String.valueOf(response.statusCode);
-                                // can get more details such as response.headers
-                            }
-                            Log.e("tresponse","the response"+response);
-                            return  super.parseNetworkResponse(response);
-                        }
-                    };
-                    queue.add(stringRequest);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.e("error","error"+e);
                 }
+             RequestQueue queue = Volley.newRequestQueue(newimagepost.this);
+//                String URL ="http://dailyestoreapp.com/dailyestore/api/userDetails";
+//                JSONObject jsonBody = new JSONObject();
+//                try {
+//                    jsonBody.put("userId", "1");
+//                    final String requestBody = jsonBody.toString();
+//
+//                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            Log.e("VOLLEY", response);
+//                        }
+//                    }, new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.e("VOLLEY", error.toString());
+//                        }
+//                    }) {
+//                        @Override
+//                        public String getBodyContentType() {
+//                            return "application/json; charset=utf-8";
+//                        }
+//
+//                        @Override
+//                        public byte[] getBody() throws AuthFailureError {
+//                            try {
+//                                return requestBody == null ? null : requestBody.getBytes("utf-8");
+//                            } catch (UnsupportedEncodingException uee) {
+//                                VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
+//                                return null;
+//                            }
+//                        }
+//
+//                        @Override
+//                        protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//                            String responseString = "";
+//                            if (response != null) {
+//                                responseString = String.valueOf(response.statusCode);
+//                                // can get more details such as response.headers
+//                            }
+//                            Log.e("tresponse","the response"+response);
+//                            return  super.parseNetworkResponse(response);
+//                        }
+//                    };
+//                    queue.add(stringRequest);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                    Log.e("error","error"+e);
+//                }
 
 
-//                JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,url,obj,
-//                        new Response.Listener<JSONObject>() {
-//                            @Override
-//                            public void onResponse(JSONObject response) {
-//                                System.out.println(response);
-//
-//                                Log.e("RESPONSE",""+response.toString());
-//
-//
-//                            }
-//                        },
-//                        new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                // progressDialog.dismiss();
-//                                // showToast("Unable to connect Server,please try after sometime!");
-//                                Log.e("ERROR",""+error);
-//                            }
-//                        });
-//
-//                jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
-//                        20000,
-//                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//                queue.add(jsObjRequest);
-//                Log.d("request>>>>>>", queue.toString());
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST,url,obj,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                System.out.println(response);
+
+                                Log.e("url",""+url);
+                                Log.e("obj",""+obj);
+                                Log.e("RESPONSE",""+response.toString());
+
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // progressDialog.dismiss();
+                                // showToast("Unable to connect Server,please try after sometime!");
+                                Log.e("ERROR",""+error);
+                            }
+                        });
+
+                jsObjRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        20000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                queue.add(jsObjRequest);
+                Log.d("request>>>>>>", queue.toString());
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
