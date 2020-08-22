@@ -86,10 +86,20 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"/>
     <Button
-        android:id="@+id/url_test"
-        android:text="test"
+        android:id="@+id/retrofit_test"
+        android:text="sms"
         android:layout_width="wrap_content"
         android:layout_height="50dp"/>
+    <Button
+        android:id="@+id/retrofit_post"
+        android:text="post"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"/>
+    <Button
+    android:id="@+id/url_test"
+    android:text="test"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"/>
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
         android:layout_width="wrap_content"

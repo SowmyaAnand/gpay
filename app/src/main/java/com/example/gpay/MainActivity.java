@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     final int GOOGLE_PAY_REQUEST_CODE = 123;
     Dialog dialog;
     Button otp1;
-    Button wht,pager1,crop,sms,test;
+    Button wht,pager1,crop,sms,test,retro,retro_post;
     public static int NOTIFICATION_ID = 154;
     private static String NOTIFICATION_CHANNEL_ID = "AtlasNotification";
     private static final int PERMISSION_REQUEST_CODE = 1;
@@ -87,6 +87,8 @@ signInButton.setOnClickListener(new View.OnClickListener() {
         crop =(Button)findViewById(R.id.cr_cropper);
         send = (Button) findViewById(R.id.send);
         test = (Button) findViewById(R.id.url_test);
+        retro = (Button) findViewById(R.id.retrofit_test);
+        retro_post = (Button) findViewById(R.id.retrofit_post);
         amount = (EditText) findViewById(R.id.amount_et);
         note = (EditText) findViewById(R.id.note);
         name = (EditText) findViewById(R.id.name);
@@ -94,6 +96,20 @@ signInButton.setOnClickListener(new View.OnClickListener() {
         otp1 = (Button) findViewById(R.id.otp);
         sms = (Button) findViewById(R.id.send_sms);
         pager1=(Button)findViewById(R.id.pager);
+        retro_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,PostRetrofitActivity.class);
+                startActivity(i);
+            }
+        });
+        retro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this,RetrofitActivity.class);
+                startActivity(i);
+            }
+        });
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
