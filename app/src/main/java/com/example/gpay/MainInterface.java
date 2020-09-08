@@ -14,13 +14,14 @@ import retrofit2.http.Query;
 
 public interface MainInterface {
 
-    @GET("v2/list")
+    @GET("listUser")
     Call<String> STRING_CALL(
-            @Query("page") int page,
+            @Query("offset") int page,
             @Query("limit") int limit
     );
 @FormUrlEncoded
-    @POST("userDetails")
-    Call<Result1>userdetails(@Field("userId") int id);
+    @POST("listUser")
+    Call<Pagination>userdetails(@Field("limit") int id,
+                             @Field("start") int startid);
 
 }

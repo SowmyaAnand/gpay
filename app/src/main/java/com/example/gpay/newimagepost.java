@@ -203,9 +203,7 @@ Log.e("test","path="+file);
         AndroidNetworking.upload("http://dailyestoreapp.com/dailyestore/api/addsubcategory")
                 .addMultipartFile("subItemImage",file)
                 .addMultipartParameter("idata", String.valueOf(dt))
-                .addMultipartParameter("subName", subname)
-                .addMultipartParameter("createdBy",createdby)
-                .setTag("uploadTest")
+                .setTag("uploads/items")
                 .setPriority(Priority.HIGH).doNotCacheResponse()
                 .build()
                 .setUploadProgressListener(new UploadProgressListener() {

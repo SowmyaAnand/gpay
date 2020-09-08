@@ -30,6 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class PostRetrofitActivity extends AppCompatActivity {
     RecyclerView recyclerView_offers;
     Offers_ItemAdapter customAdapter_offers;
@@ -39,8 +40,9 @@ public class PostRetrofitActivity extends AppCompatActivity {
     ArrayList Images_images = new ArrayList<>(Arrays.asList(R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp, R.drawable.ic_access_alarm_black_24dp, R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp));
     ArrayList personNames_offers = new ArrayList<>(Arrays.asList("ITEM1", "ITEM2", "ITEM3", "ITEM4", "ITEM5", "ITEM6"));
     ArrayList<Items>dataarraylist = new ArrayList<>();
-    int page = 1,limit=7;
+    int page = 0,limit=1;
     UserParams user;
+    private String tag ="Postretrofit";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,7 @@ user.setUserId(1);
        // customAdapter_offers = new Offers_ItemAdapter(getApplicationContext(), dataarraylist);
      //   recyclerView_offers.setAdapter(customAdapter_offers);
 
-        getData(page,limit);
+        getData(limit,page);
 //        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
 //            @Override
 //            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -71,39 +73,41 @@ user.setUserId(1);
 //        });
     }
 
-    private void getData(int page, int limit) {
+    private void getData(int limit, int page) {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-       OkHttpClient okHttpClient = new OkHttpClient.Builder()
-               .addInterceptor(loggingInterceptor)
-               .build();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://dailyestoreapp.com/dailyestore/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
         MainInterface mainInterface = retrofit.create(MainInterface.class);
-        Call<Result1> resultCall = mainInterface.userdetails(1);
-        resultCall.enqueue(new Callback<Result1>() {
+        Call<Pagination> call = mainInterface.userdetails(limit, page);
+        call.enqueue(new Callback<Pagination>() {
             @Override
-            public void onResponse(Call<Result1> call, Response<Result1> response) {
-
-
-
-                Log.e("response","post result"+new GsonBuilder().setPrettyPrinting().create().toJson(response.body()) );
-            String res= new GsonBuilder().setPrettyPrinting().create().toJson(response.body().getResponsedata());
-                JsonObject obj = new JsonParser().parse(res).getAsJsonObject();
-            Log.e("response je","post result"+obj);
+            public void onResponse(Call<Pagination> call, Response<Pagination> response) {
+                Pagination pg = response.body();
+                PaginationResponseData p = pg.getResponsedata();
+               String name = p.getData().get(0).getFirstName();
+                Log.e(tag,"response"+name);
             }
 
             @Override
-            public void onFailure(Call<Result1> call, Throwable t) {
-                Log.e("response failure","post result"+t.getMessage());
+            public void onFailure(Call<Pagination> call, Throwable t) {
+
             }
         });
 
-
     }
+
+
+
+
+
+
 
     private void parseJson(JSONArray jsonArray) {
         for(int i =0; i<jsonArray.length();i++)

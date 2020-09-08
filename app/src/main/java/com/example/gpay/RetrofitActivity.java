@@ -32,7 +32,7 @@ public class RetrofitActivity extends AppCompatActivity {
     ArrayList Images_images = new ArrayList<>(Arrays.asList(R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp, R.drawable.ic_access_alarm_black_24dp, R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp,R.drawable.ic_access_alarm_black_24dp));
     ArrayList personNames_offers = new ArrayList<>(Arrays.asList("ITEM1", "ITEM2", "ITEM3", "ITEM4", "ITEM5", "ITEM6"));
 ArrayList<Items>dataarraylist = new ArrayList<>();
-int page = 1,limit=7;
+int page = 1,limit=5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeLi
 
     private void getData(int page, int limit) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://picsum.photos/")
+                .baseUrl("http://dailyestoreapp.com/dailyestore/api/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         MainInterface mainInterface = retrofit.create(MainInterface.class);

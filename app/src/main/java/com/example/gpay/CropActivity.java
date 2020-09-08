@@ -20,6 +20,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.androidnetworking.interfaces.StringRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -99,12 +100,17 @@ Uri mimage;
 //        progressDialog.setMessage("Loading...");
 //        progressDialog.show();
         AndroidNetworking.enableLogging();
-        AndroidNetworking.upload("http://dailyestoreapp.com/dailyestore/api/addsubcategory")
-                .addMultipartFile("subItemImage",file)
-                .addMultipartParameter("idata", String.valueOf(dt))
-                .addMultipartParameter("subName", subname)
-                .addMultipartParameter("createdBy",createdby)
-                .setTag("uploadTest")
+        AndroidNetworking.upload("http://dailyestoreapp.com/dailyestore/api/addItems")
+                .addMultipartFile("image",file)
+                .addMultipartParameter("typeId", "1")
+                .addMultipartParameter("subId", "1")
+                .addMultipartParameter("itemName","HP")
+                .addMultipartParameter("description","test")
+                .addMultipartParameter("quantity","1")
+                .addMultipartParameter("price","250")
+                .addMultipartParameter("status","1")
+                .addMultipartParameter("createdBy","1")
+                .setTag("uploads/items/")
                 .setPriority(Priority.HIGH).doNotCacheResponse()
                 .build()
                 .setUploadProgressListener(new UploadProgressListener() {
@@ -115,102 +121,113 @@ Uri mimage;
 
                     }
                 })
-                .getAsJSONObject(new JSONObjectRequestListener() {
+                .getAsString(new StringRequestListener() {
                     @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        //  progressDialog.dismiss();
-                        // FileUtils.deleteCache(PostActivity.this.getApplicationContext());
-                        Log.e("CATEGORYList---->", "" + jsonObject);
-
-
-                        String result = null;
-                        JSONObject fullResponseObject = null;
-//                        try {
-//                            fullResponseObject = jsonObject;
-//
-//                         //   result = fullResponseObject.getString(Constant.API_RESPONSE);
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-
-
-//                        try {
-//
-//                            JSONArray jsonTokenBased = fullResponseObject.getJSONArray(Constant.API_TOKEN_RESPONSE);
-//                            for (int i = 0; i < jsonTokenBased.length(); i++) {
-//                                JSONObject jsonTokenObject = jsonTokenBased.getJSONObject(i);
-//                                String authenticateTokenMsg = jsonTokenObject.getString(Constant.API_AUTHENTICATE_TOKEN_KEY);
-//                                String refreshToken = jsonTokenObject.getString(Constant.API_TOKEN_KEY);
-//                                if (refreshToken != null && !refreshToken.equalsIgnoreCase("null")) {
-//                                    HelperClass.insertingRefreshToken(PostActivity.this, refreshToken);
-//                                }
-//                                else {
-//
-//                                    if (authenticateTokenMsg.contains(Constant.API_TOKEN_AUTHORIZATION_FAILURE)) {
-//                                        uploadParameter("", categoryId, ADID, header, description, date,publisher);
-//                                    } else {
-//                                        showToast(authenticateTokenMsg);
-//                                        HelperClass.LogOut(PostActivity.this);
-//                                    }
-//
-//                                }
-//                            }
-//
-//
-//                            if (result != null && !result.equalsIgnoreCase("null")) {
-//                                try{
-//                                    JSONArray jsonArray = new JSONArray(result);
-//                                    String postValue=jsonArray.getString(0);
-//                                    String postResponse=postValue.trim();
-//                                    if(postResponse.equals("Post updated")){
-//                                        showToast("Successfully Posted");
-//                                        finish();
-//                                    }else{
-//                                        showToast(postResponse);
-//                                    }
-//
-//                                }
-//                                catch(Exception e){
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            Log.e("DecryptCategory ->", "" + e);
-//                        }
-
+                    public void onResponse(String response) {
+                        Log.e("response","response = "+response);
                     }
 
                     @Override
                     public void onError(ANError anError) {
-//                        progressDialog.dismiss();
-//                        FileUtils.deleteCache(PostActivity.this.getApplicationContext());
 
-                        Log.e("RESPONSE",""+anError);
-                        Log.d("", "onError errorCode : " + anError.getErrorCode());
-                        Log.d("", "onError errorBody : " + anError.getErrorBody());
-                        Log.d("", "onError errorDetail : " + anError.getErrorDetail());
-//                        if(anError.toString().contains("javax.net.ssl.SSLPeerUnverifiedException") && count==1){
-//                            uploadFile(file,categoryId,ADID, header, description,  date,  publisher);
-//                            Log.e("Request->",""+file+categoryId+ADID+header+description+date+publisher);
-//                           // ++count;
-//
-//
-//                        }
-//                        else{
-//                          //  showToast("Unable to connect with server,please try after sometime!!");
-//
-//                        }
                     }
-
-
                 });
+//                .getAsJSONObject(new JSONObjectRequestListener() {
+//                    @Override
+//                    public void onResponse(JSONObject jsonObject) {
+//                        //  progressDialog.dismiss();
+//                        // FileUtils.deleteCache(PostActivity.this.getApplicationContext());
+//                        Log.e("CATEGORYList---->", "" + jsonObject);
+//
+//
+//                        String result = null;
+//                        JSONObject fullResponseObject = null;
+////                        try {
+////                            fullResponseObject = jsonObject;
+////
+////                         //   result = fullResponseObject.getString(Constant.API_RESPONSE);
+////
+////
+////                        } catch (JSONException e) {
+////                            e.printStackTrace();
+////                        }
+//
+//
+////                        try {
+////
+////                            JSONArray jsonTokenBased = fullResponseObject.getJSONArray(Constant.API_TOKEN_RESPONSE);
+////                            for (int i = 0; i < jsonTokenBased.length(); i++) {
+////                                JSONObject jsonTokenObject = jsonTokenBased.getJSONObject(i);
+////                                String authenticateTokenMsg = jsonTokenObject.getString(Constant.API_AUTHENTICATE_TOKEN_KEY);
+////                                String refreshToken = jsonTokenObject.getString(Constant.API_TOKEN_KEY);
+////                                if (refreshToken != null && !refreshToken.equalsIgnoreCase("null")) {
+////                                    HelperClass.insertingRefreshToken(PostActivity.this, refreshToken);
+////                                }
+////                                else {
+////
+////                                    if (authenticateTokenMsg.contains(Constant.API_TOKEN_AUTHORIZATION_FAILURE)) {
+////                                        uploadParameter("", categoryId, ADID, header, description, date,publisher);
+////                                    } else {
+////                                        showToast(authenticateTokenMsg);
+////                                        HelperClass.LogOut(PostActivity.this);
+////                                    }
+////
+////                                }
+////                            }
+////
+////
+////                            if (result != null && !result.equalsIgnoreCase("null")) {
+////                                try{
+////                                    JSONArray jsonArray = new JSONArray(result);
+////                                    String postValue=jsonArray.getString(0);
+////                                    String postResponse=postValue.trim();
+////                                    if(postResponse.equals("Post updated")){
+////                                        showToast("Successfully Posted");
+////                                        finish();
+////                                    }else{
+////                                        showToast(postResponse);
+////                                    }
+////
+////                                }
+////                                catch(Exception e){
+////                                    e.printStackTrace();
+////                                }
+////                            }
+////
+////
+////                        } catch (JSONException e) {
+////                            e.printStackTrace();
+////                        } catch (Exception e) {
+////                            e.printStackTrace();
+////                            Log.e("DecryptCategory ->", "" + e);
+////                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(ANError anError) {
+////                        progressDialog.dismiss();
+////                        FileUtils.deleteCache(PostActivity.this.getApplicationContext());
+//
+//                        Log.e("RESPONSE",""+anError);
+//                        Log.d("", "onError errorCode : " + anError.getErrorCode());
+//                        Log.d("", "onError errorBody : " + anError.getErrorBody());
+//                        Log.d("", "onError errorDetail : " + anError.getErrorDetail());
+////                        if(anError.toString().contains("javax.net.ssl.SSLPeerUnverifiedException") && count==1){
+////                            uploadFile(file,categoryId,ADID, header, description,  date,  publisher);
+////                            Log.e("Request->",""+file+categoryId+ADID+header+description+date+publisher);
+////                           // ++count;
+////
+////
+////                        }
+////                        else{
+////                          //  showToast("Unable to connect with server,please try after sometime!!");
+////
+////                        }
+//                    }
+//
+//
+//                });
 
 
               /*  .getAsString(new StringRequestListener() {
@@ -225,7 +242,6 @@ Uri mimage;
                             showToast(s);
                         }
                     }
-
                     @Override
                     public void onError(ANError anError) {
                         progressDialog.dismiss();
@@ -240,11 +256,9 @@ Uri mimage;
                         }
                         else{
                             showToast("Unable to connect with server,please try after sometime!!");
-
                         }
                     }
                 });*/
     }
 
 }
-
