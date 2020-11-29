@@ -214,40 +214,50 @@ else
 
     void payUsingUpi(  String name,String upiId, String note, String amount) {
         Log.e("main ", "name "+name +"--up--"+upiId+"--"+ note+"--"+amount);
-        Uri uri = Uri.parse("upi://pay").buildUpon()
+//        Uri uri = Uri.parse("upi://pay").buildUpon()
+//                .appendQueryParameter("pa", upiId)
+//                .appendQueryParameter("pn", name)
+//                //.appendQueryParameter("mc", "")
+//                //.appendQueryParameter("tid", "02125412")
+//                //.appendQueryParameter("tr", "25584584")
+//                .appendQueryParameter("tn", note)
+//                .appendQueryParameter("am", amount)
+//                .appendQueryParameter("cu", "INR")
+//                //.appendQueryParameter("refUrl", "blueapp")
+//                .build();
+        Uri uri =new Uri.Builder()
+                .scheme("upi")
+                .authority("pay")
                 .appendQueryParameter("pa", upiId)
                 .appendQueryParameter("pn", name)
-                //.appendQueryParameter("mc", "")
-                //.appendQueryParameter("tid", "02125412")
-                //.appendQueryParameter("tr", "25584584")
                 .appendQueryParameter("tn", note)
                 .appendQueryParameter("am", amount)
-                .appendQueryParameter("cu", "INR")
-                //.appendQueryParameter("refUrl", "blueapp")
+               .appendQueryParameter("cu", "INR")
                 .build();
+
 // this code is only for google play
         String GOOGLE_PAY_PACKAGE_NAME = "com.google.android.apps.nbu.paisa.user";
       //  int GOOGLE_PAY_REQUEST_CODE = 123;
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(uri);
-        intent.setPackage(GOOGLE_PAY_PACKAGE_NAME);
-        MainActivity.this.startActivityForResult(intent, GOOGLE_PAY_REQUEST_CODE);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.setData(uri);
+//        intent.setPackage(GOOGLE_PAY_PACKAGE_NAME);
+//        MainActivity.this.startActivityForResult(intent, GOOGLE_PAY_REQUEST_CODE);
 
         // this code is for all UPI id installed  in phone
 
-        // Intent upiPayIntent = new Intent(Intent.ACTION_VIEW);
-        //upiPayIntent.setData(uri);
+         Intent upiPayIntent = new Intent(Intent.ACTION_VIEW);
+        upiPayIntent.setData(uri);
 
         // will always show a dialog to user to choose an app
-        //Intent chooser = Intent.createChooser(upiPayIntent, "Pay with");
+        Intent chooser = Intent.createChooser(upiPayIntent, "Pay with");
 
-        // check if intent resolves
-        //if(null != chooser.resolveActivity(getPackageManager())) {
-         //   startActivityForResult(chooser, UPI_PAYMENT);
-        //} else {
-        //    Toast.makeText(MainActivity.this,"No UPI app found, please install one to continue",Toast.LENGTH_SHORT).show();
-       // }
+       //  check if intent resolves
+        if(null != chooser.resolveActivity(getPackageManager())) {
+            startActivityForResult(chooser, UPI_PAYMENT);
+        } else {
+            Toast.makeText(MainActivity.this,"No UPI app found, please install one to continue",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -263,7 +273,7 @@ else
         }
 
 
-        Log.e("main ", "response in activity "+requestCode );
+        Log.e("main ", "response in activity "+resultCode );
         /*
        E/main: response -1
        E/UPI: onActivityResult: txnId=AXI4a3428ee58654a938811812c72c0df45&responseCode=00&Status=SUCCESS&txnRef=922118921612

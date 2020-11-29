@@ -63,7 +63,7 @@ nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeLi
 
     private void getData(int page, int limit) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://dailyestoreapp.com/dailyestore/api/")
+                .baseUrl("https://picsum.photos/")
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
         MainInterface mainInterface = retrofit.create(MainInterface.class);

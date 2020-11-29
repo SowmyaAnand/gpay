@@ -14,9 +14,9 @@ import retrofit2.http.Query;
 
 public interface MainInterface {
 
-    @GET("listUser")
+    @GET("v2/list")
     Call<String> STRING_CALL(
-            @Query("offset") int page,
+            @Query("page") int page,
             @Query("limit") int limit
     );
 @FormUrlEncoded
