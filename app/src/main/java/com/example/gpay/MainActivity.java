@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -43,6 +44,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 //Google integration
 //https://developers.google.com/identity/sign-in/android/start-integrating
@@ -150,6 +152,44 @@ signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                PackageManager pm=getPackageManager();
+                try {
+
+                    Intent waIntent = new Intent(Intent.ACTION_SEND);
+                    waIntent.setType("text/plain");
+                    String text = "YOUR TEXT HERE";
+
+                    PackageInfo info=pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+                    //Check if package exists or not. If not then code
+                    //in catch block will be called
+                    waIntent.setPackage("com.whatsapp");
+
+                    waIntent.putExtra(Intent.EXTRA_TEXT, text);
+                    Uri uri = Uri.parse("smsto:" + "9745399320");
+                    Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                    i.setPackage("com.whatsapp");
+                    startActivity(Intent.createChooser(i, ""));
+
+                } catch (PackageManager.NameNotFoundException e) {
+                    Toast.makeText(MainActivity.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                            .show();
+                }
+
+
+                PackageManager packageManager = getPackageManager();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+
+                try {
+                    String url = "https://api.whatsapp.com/send?phone="+ "919745399320" +"&text=" + URLEncoder.encode("title", "UTF-8");
+                    i.setPackage("com.whatsapp");
+                    i.setData(Uri.parse(url));
+                    if (i.resolveActivity(packageManager) != null) {
+                       startActivity(i);
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
 
                 // call functionality
                // try {
@@ -160,26 +200,26 @@ signInButton.setOnClickListener(new View.OnClickListener() {
                     //TODO smth
               //  }
 
-checkpermission();
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    String no = "+919745399320";
-                    String msg="Success";
-                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
-                    PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
-
-                    //Get the SmsManager instance and call the sendTextMessage method to send message
-                    SmsManager sms=SmsManager.getDefault();
-                    sms.sendTextMessage(no, null, msg, pi,null);
-
-                    Toast.makeText(getApplicationContext(), "Message Sent successfully!",
-                            Toast.LENGTH_LONG).show();
-                }
-else
-                {
-                    Toast.makeText(getApplicationContext(), "Please enable permission",
-                            Toast.LENGTH_LONG).show();
-                }
+//checkpermission();
+//                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+//                        == PackageManager.PERMISSION_GRANTED) {
+//                    String no = "+919745399320";
+//                    String msg="Success";
+//                    Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+//                    PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,0);
+//
+//                    //Get the SmsManager instance and call the sendTextMessage method to send message
+//                    SmsManager sms=SmsManager.getDefault();
+//                    sms.sendTextMessage(no, null, msg, pi,null);
+//
+//                    Toast.makeText(getApplicationContext(), "Message Sent successfully!",
+//                            Toast.LENGTH_LONG).show();
+//                }
+//else
+//                {
+//                    Toast.makeText(getApplicationContext(), "Please enable permission",
+//                            Toast.LENGTH_LONG).show();
+//                }
 
             }
 });
